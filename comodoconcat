@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ "${1}" == "" ]; then
+  cat << EOD
+usage: ${0} <domain>
+EOD
+  exit 1
+fi
+
+DOMAIN=`echo $1 | tr . _`
+cat $DOMAIN.crt COMODORSADomainValidationSecureServerCA.crt COMODORSAAddTrustCA.crt AddTrustExternalCARoot.crt > $DOMAIN.pem
+cat $DOMAIN.pem

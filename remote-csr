@@ -1,0 +1,10 @@
+#!/bin/sh
+if [ "${2}" == "" ]; then
+  cat << EOD
+usage: ${0} <host> <domain>
+EOD
+  exit 1
+fi
+
+DOMAIN=`echo $2 | tr . _`
+ssh -tC $1 "openssl req -nodes -newkey rsa:2048 -keyout $DOMAIN.key"
