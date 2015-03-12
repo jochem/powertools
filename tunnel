@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ "${3}" == "" ]; then
+  cat << EOD
+usage: ${0} <server> <source port> <local port>
+EOD
+  exit 1
+fi
+
+echo "Opening http://localhost:${3}/"
+open "http://localhost:${3}/"
+ssh -CNL${3}:localhost:${2} ${1}
