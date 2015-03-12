@@ -1,0 +1,29 @@
+#!/bin/bash
+if [ "${1}" == "" ]; then
+    cat << EOD
+usage: ${0} <env name>
+EOD
+    exit 1
+fi
+
+VERSION=`python -c "import sys; print('{0.major}.{0.minor}'.format(sys.version_info))"`
+PKGS_DIR="lib/python${VERSION}/site-packages"
+TARGET="${WORKON_HOME}/${1}/${PKGS_DIR}"
+
+if [ -d ${TARGET} ]; then
+    echo "1) Entering ${TARGET}"
+    cd ${TARGET}
+else
+    echo "That virtualenv does not exist."
+    exit 1
+fi
+
+if [ -f pkg_resources.py ]; then
+    echo "2) Creating symbolic link to PyQt4"
+    ln -s /opt/local/Library/Frameworks/Python.framework/Versions/${VERSION}/lib/python${VERSION}/site-packages/PyQt4
+
+    echo "3) Creating symbolic link to sip.so"
+    ln -s /opt/local/Library/Frameworks/Python.framework/Versions/${VERSION}/lib/python${VERSION}/site-packages/sip.so
+else
+    echo "X) That's not a valid virtualenv."
+fi
