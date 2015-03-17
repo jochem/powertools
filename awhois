@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ "${1}" == "" ]; then
+  cat << EOD
+usage: ${0} <host>
+EOD
+  exit 1
+fi
+
+HOST=$(dig +short a ${1})
+echo "Looking up $HOST"
+whois $HOST
