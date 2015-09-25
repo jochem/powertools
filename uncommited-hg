@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+import subprocess
+
+cmd = 'find . -type d -name .hg'.split(' ')
+
+for path in subprocess.check_output(cmd, stderr=subprocess.STDOUT).split('\n'):
+    if not path:
+        continue
+    repo = '/'.join(path.split('/')[:-1])
+    print "\n%s" % repo
+    subprocess.call(['hg', 'status', repo])
